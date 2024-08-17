@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HQRoomsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ReservationInfo">
+    <Key>
+      <PropertyRef Name="reservationNumber" />
+    </Key>
+    <Property Name="reservedBy" Type="int" Nullable="false" />
+    <Property Name="reservationNumber" Type="int" Nullable="false" />
+    <Property Name="reservationDate" Type="date" />
+    <Property Name="durationTime" Type="int" />
+    <Property Name="startTime" Type="datetime" />
+    <Property Name="endTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="rooms">
+    <Key>
+      <PropertyRef Name="roomNumber" />
+    </Key>
+    <Property Name="roomNumber" Type="int" Nullable="false" />
+    <Property Name="roomLocation" Type="varchar" MaxLength="12" />
+    <Property Name="capacity" Type="int" />
+    <Property Name="roomFloor" Type="int" />
+    <Property Name="roomStatus" Type="varchar" MaxLength="40" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SystemAdmin">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="contact" Type="varchar" MaxLength="11" />
+    <Property Name="FirstName" Type="varchar" MaxLength="40" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="40" Nullable="false" />
+    <Property Name="email" Type="varchar" MaxLength="40" />
+    <Property Name="phone" Type="varchar" MaxLength="15" />
+    <Property Name="password" Type="varchar" MaxLength="20" />
+    <Property Name="RegTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="SystemUsers">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="faculty" Type="varchar" MaxLength="8" />
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="userType" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="40" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="40" Nullable="false" />
+    <Property Name="email" Type="varchar" MaxLength="40" />
+    <Property Name="phone" Type="varchar" MaxLength="15" />
+    <Property Name="password" Type="varchar" MaxLength="20" />
+    <Property Name="RegTime" Type="datetime" />
+  </EntityType>
+  <Association Name="FK__Reservati__reser__3E52440B">
+    <End Role="SystemUsers" Type="Self.SystemUsers" Multiplicity="1" />
+    <End Role="ReservationInfo" Type="Self.ReservationInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SystemUsers">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ReservationInfo">
+        <PropertyRef Name="reservedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="HQRoomsModelStoreContainer">
+    <EntitySet Name="ReservationInfo" EntityType="Self.ReservationInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="rooms" EntityType="Self.rooms" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SystemAdmin" EntityType="Self.SystemAdmin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SystemUsers" EntityType="Self.SystemUsers" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Reservati__reser__3E52440B" Association="Self.FK__Reservati__reser__3E52440B">
+      <End Role="SystemUsers" EntitySet="SystemUsers" />
+      <End Role="ReservationInfo" EntitySet="ReservationInfo" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

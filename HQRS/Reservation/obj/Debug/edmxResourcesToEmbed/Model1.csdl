@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HQRoomsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="ReservationInfo">
+    <Key>
+      <PropertyRef Name="reservationNumber" />
+    </Key>
+    <Property Name="reservedBy" Type="Int32" Nullable="false" />
+    <Property Name="reservationNumber" Type="Int32" Nullable="false" />
+    <Property Name="reservationDate" Type="DateTime" Precision="0" />
+    <Property Name="durationTime" Type="Int32" />
+    <Property Name="startTime" Type="DateTime" Precision="3" />
+    <Property Name="endTime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="SystemUser" Relationship="Self.FK__Reservati__reser__3E52440B" FromRole="ReservationInfo" ToRole="SystemUsers" />
+  </EntityType>
+  <EntityType Name="room">
+    <Key>
+      <PropertyRef Name="roomNumber" />
+    </Key>
+    <Property Name="roomNumber" Type="Int32" Nullable="false" />
+    <Property Name="roomLocation" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+    <Property Name="capacity" Type="Int32" />
+    <Property Name="roomFloor" Type="Int32" />
+    <Property Name="roomStatus" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SystemAdmin">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="contact" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+    <Property Name="FirstName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="RegTime" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="SystemUser">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="faculty" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="userType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="RegTime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="ReservationInfoes" Relationship="Self.FK__Reservati__reser__3E52440B" FromRole="SystemUsers" ToRole="ReservationInfo" />
+  </EntityType>
+  <Association Name="FK__Reservati__reser__3E52440B">
+    <End Role="SystemUsers" Type="Self.SystemUser" Multiplicity="1" />
+    <End Role="ReservationInfo" Type="Self.ReservationInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SystemUsers">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ReservationInfo">
+        <PropertyRef Name="reservedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="HQRoomsEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ReservationInfoes" EntityType="Self.ReservationInfo" />
+    <EntitySet Name="rooms" EntityType="Self.room" />
+    <EntitySet Name="SystemAdmins" EntityType="Self.SystemAdmin" />
+    <EntitySet Name="SystemUsers" EntityType="Self.SystemUser" />
+    <AssociationSet Name="FK__Reservati__reser__3E52440B" Association="Self.FK__Reservati__reser__3E52440B">
+      <End Role="SystemUsers" EntitySet="SystemUsers" />
+      <End Role="ReservationInfo" EntitySet="ReservationInfoes" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
