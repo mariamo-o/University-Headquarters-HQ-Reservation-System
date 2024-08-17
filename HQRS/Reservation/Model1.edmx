@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HQRoomsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ReservationInfo">
+          <Key>
+            <PropertyRef Name="reservationNumber" />
+          </Key>
+          <Property Name="reservedBy" Type="int" Nullable="false" />
+          <Property Name="reservationNumber" Type="int" Nullable="false" />
+          <Property Name="reservationDate" Type="date" />
+          <Property Name="durationTime" Type="int" />
+          <Property Name="startTime" Type="datetime" />
+          <Property Name="endTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="rooms">
+          <Key>
+            <PropertyRef Name="roomNumber" />
+          </Key>
+          <Property Name="roomNumber" Type="int" Nullable="false" />
+          <Property Name="roomLocation" Type="varchar" MaxLength="12" />
+          <Property Name="capacity" Type="int" />
+          <Property Name="roomFloor" Type="int" />
+          <Property Name="roomStatus" Type="varchar" MaxLength="40" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SystemAdmin">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="contact" Type="varchar" MaxLength="11" />
+          <Property Name="FirstName" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="40" />
+          <Property Name="phone" Type="varchar" MaxLength="15" />
+          <Property Name="password" Type="varchar" MaxLength="20" />
+          <Property Name="RegTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SystemUsers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="faculty" Type="varchar" MaxLength="8" />
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="userType" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="40" />
+          <Property Name="phone" Type="varchar" MaxLength="15" />
+          <Property Name="password" Type="varchar" MaxLength="20" />
+          <Property Name="RegTime" Type="datetime" />
+        </EntityType>
+        <Association Name="FK__Reservati__reser__3E52440B">
+          <End Role="SystemUsers" Type="Self.SystemUsers" Multiplicity="1" />
+          <End Role="ReservationInfo" Type="Self.ReservationInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUsers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ReservationInfo">
+              <PropertyRef Name="reservedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HQRoomsModelStoreContainer">
+          <EntitySet Name="ReservationInfo" EntityType="Self.ReservationInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rooms" EntityType="Self.rooms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemAdmin" EntityType="Self.SystemAdmin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemUsers" EntityType="Self.SystemUsers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Reservati__reser__3E52440B" Association="Self.FK__Reservati__reser__3E52440B">
+            <End Role="SystemUsers" EntitySet="SystemUsers" />
+            <End Role="ReservationInfo" EntitySet="ReservationInfo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HQRoomsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ReservationInfo">
+          <Key>
+            <PropertyRef Name="reservationNumber" />
+          </Key>
+          <Property Name="reservedBy" Type="Int32" Nullable="false" />
+          <Property Name="reservationNumber" Type="Int32" Nullable="false" />
+          <Property Name="reservationDate" Type="DateTime" Precision="0" />
+          <Property Name="durationTime" Type="Int32" />
+          <Property Name="startTime" Type="DateTime" Precision="3" />
+          <Property Name="endTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="SystemUser" Relationship="Self.FK__Reservati__reser__3E52440B" FromRole="ReservationInfo" ToRole="SystemUsers" />
+        </EntityType>
+        <EntityType Name="room">
+          <Key>
+            <PropertyRef Name="roomNumber" />
+          </Key>
+          <Property Name="roomNumber" Type="Int32" Nullable="false" />
+          <Property Name="roomLocation" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="capacity" Type="Int32" />
+          <Property Name="roomFloor" Type="Int32" />
+          <Property Name="roomStatus" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SystemAdmin">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="contact" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="FirstName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RegTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SystemUser">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="faculty" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="userType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RegTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ReservationInfoes" Relationship="Self.FK__Reservati__reser__3E52440B" FromRole="SystemUsers" ToRole="ReservationInfo" />
+        </EntityType>
+        <Association Name="FK__Reservati__reser__3E52440B">
+          <End Role="SystemUsers" Type="Self.SystemUser" Multiplicity="1" />
+          <End Role="ReservationInfo" Type="Self.ReservationInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUsers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ReservationInfo">
+              <PropertyRef Name="reservedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HQRoomsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ReservationInfoes" EntityType="Self.ReservationInfo" />
+          <EntitySet Name="rooms" EntityType="Self.room" />
+          <EntitySet Name="SystemAdmins" EntityType="Self.SystemAdmin" />
+          <EntitySet Name="SystemUsers" EntityType="Self.SystemUser" />
+          <AssociationSet Name="FK__Reservati__reser__3E52440B" Association="Self.FK__Reservati__reser__3E52440B">
+            <End Role="SystemUsers" EntitySet="SystemUsers" />
+            <End Role="ReservationInfo" EntitySet="ReservationInfoes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HQRoomsModelStoreContainer" CdmEntityContainer="HQRoomsEntities">
+          <EntitySetMapping Name="ReservationInfoes">
+            <EntityTypeMapping TypeName="HQRoomsModel.ReservationInfo">
+              <MappingFragment StoreEntitySet="ReservationInfo">
+                <ScalarProperty Name="reservedBy" ColumnName="reservedBy" />
+                <ScalarProperty Name="reservationNumber" ColumnName="reservationNumber" />
+                <ScalarProperty Name="reservationDate" ColumnName="reservationDate" />
+                <ScalarProperty Name="durationTime" ColumnName="durationTime" />
+                <ScalarProperty Name="startTime" ColumnName="startTime" />
+                <ScalarProperty Name="endTime" ColumnName="endTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rooms">
+            <EntityTypeMapping TypeName="HQRoomsModel.room">
+              <MappingFragment StoreEntitySet="rooms">
+                <ScalarProperty Name="roomNumber" ColumnName="roomNumber" />
+                <ScalarProperty Name="roomLocation" ColumnName="roomLocation" />
+                <ScalarProperty Name="capacity" ColumnName="capacity" />
+                <ScalarProperty Name="roomFloor" ColumnName="roomFloor" />
+                <ScalarProperty Name="roomStatus" ColumnName="roomStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemAdmins">
+            <EntityTypeMapping TypeName="HQRoomsModel.SystemAdmin">
+              <MappingFragment StoreEntitySet="SystemAdmin">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="contact" ColumnName="contact" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemUsers">
+            <EntityTypeMapping TypeName="HQRoomsModel.SystemUser">
+              <MappingFragment StoreEntitySet="SystemUsers">
+                <ScalarProperty Name="faculty" ColumnName="faculty" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="userType" ColumnName="userType" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
